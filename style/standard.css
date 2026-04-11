@@ -1,4 +1,7 @@
 :root {
+  --clr-primary-bg: #910d0d;
+  --clr-secondary-bg: #ffffff;
+  --clr-primary-text: #1b1b1b;
 }
 
 * {
