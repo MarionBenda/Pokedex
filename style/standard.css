@@ -1,6 +1,6 @@
 :root {
   --clr-primary-bg: #910d0d;
-  --clr-secondary-bg: #ffffff;
+  --clr-secondary-bg: #b84b4b;
   --clr-primary-text: #1b1b1b;
 }
 
@@ -16,9 +16,18 @@ html {
 
 body {
   min-height: 100vh;
-  font-family: 'Frijole';
+  font-family: 'palanquin', sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
   text-decoration: none;
+}
+
+main {
+  flex: 1;
+  max-width: 1920px;
+  width: 100%;
+  margin: 0 auto;
 }

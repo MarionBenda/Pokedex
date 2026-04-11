@@ -1,0 +1,59 @@
+h1 {
+  font-family: 'frijole', cursive;
+  color: #2c3e50;
+  text-shadow:
+    0 0 8px #ff4d4d,
+    0 0 2px rgba(230, 57, 70, 0.8);
+  font-size: clamp(1.5rem, 6vw, 4rem);
+  margin: 0;
+  white-space: nowrap;
+}
+header,
+footer {
+  display: flex;
+  justify-content: center;
+  background-color: var(--clr-primary-bg);
+  height: 200px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1920px;
+  height: 100%;
+  padding: 0 2vw;
+  gap: 20px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  max-height: 150px;
+  max-width: 30%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 1;
+}
+
+.search-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-input {
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  padding: 10px;
+  outline: 2px solid white;
+  outline-offset: 2px;
+  transition: border-color 0.3s;
+}
