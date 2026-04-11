@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Palanquin';
+  src: url('../assets/fonts/palanquin/Palanquin-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'frijole';
+  src: url('../assets/fonts/frijole/Frijole-Regular.ttf');
+  font-weight: 500;
+}
