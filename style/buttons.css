@@ -5,28 +5,48 @@
   padding: 10px;
   outline: 2px solid white;
   outline-offset: 2px;
-  /* Sanfter Übergang für das Leuchten */
   transition: all 0.3s ease-in-out;
 }
 
-/* Der Leuchteffekt beim Drüberfahren (Hover) und Reinklicken (Focus) */
 .search-input:hover,
 .search-input:focus {
-  outline: 2px solid #ff4d4d; /* Die Linie wird rot */
+  outline: 2px solid #ff4d4d;
   outline-offset: 2px;
-
-  /* Das rote Leuchten (Glow-Effekt) */
   box-shadow:
     0 0 15px #ff4d4d,
     0 0 5px rgba(230, 57, 70, 0.6);
 
-  background-color: #fff; /* Optional: Stellt sicher, dass der Hintergrund weiß bleibt */
+  background-color: #fff;
 }
 
-/* Speziell beim Klicken (Focus) soll es noch etwas intensiver sein */
 .search-input:focus {
   box-shadow:
     0 0 20px #ff4d4d,
     0 0 10px rgba(230, 57, 70, 0.8);
   outline-width: 3px;
+}
+
+.load-btn {
+  border-radius: 12px;
+  padding: 10px;
+  width: 150px;
+  background-color: #363534;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition:
+    transform 0.3s ease-in-out,
+    background-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.load-btn:hover {
+  background-color: #ff4d4d;
+  color: white;
+  box-shadow:
+    0 0 15px #ff4d4d,
+    0 0 5px rgba(230, 57, 70, 0.6);
+  transform: scale(1.05);
+  filter: brightness(1.2);
 }

@@ -57,3 +57,25 @@ header img {
   outline-offset: 2px;
   transition: border-color 0.3s;
 }
+
+.main-content {
+  width: 100%;
+  max-width: 1920px;
+  padding: 20px 0;
+}
+
+.load-content {
+  display: flex;
+  width: 100%;
+  max-width: 1920px;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.pokemon-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+}
