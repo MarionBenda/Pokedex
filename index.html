@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./style/fonts.css" />
     <link rel="stylesheet" href="./style/buttons.css" />
     <link rel="stylesheet" href="./style/dialog.css" />
+    <link rel="stylesheet" href="./style/loading-spinner.css" />
     <script src="./scripts/db.js"></script>
 
     <link
@@ -41,7 +42,14 @@
         </div>
       </section>
       <section class="load-content">
-        <button class="load-btn">Laden...</button>
+        <div id="spinner-overlay" style="display: none">
+          <img
+            src="./assets/img/spinner.png"
+            class="pokeball-spinner"
+            alt="Laden..."
+          />
+        </div>
+        <button class="load-btn" onclick="loadMore()">Mehr laden...</button>
       </section>
     </main>
 

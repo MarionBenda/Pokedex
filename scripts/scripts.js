@@ -1,5 +1,9 @@
 const url = 'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0';
 
+const LIMIT = 20;
+const CONTAINER = document.getElementById('pokemon-container');
+let OFFSET = 0;
+
 const typeColors = {
   fire: '#FDDFDF',
   grass: '#DEFDE0',
@@ -18,18 +22,25 @@ const typeColors = {
 };
 
 async function getPokemon() {
+  const url = `https://pokeapi.co/api/v2/pokemon?limit=${LIMIT}&offset=${OFFSET}`;
   const response = await fetch(url);
   const data = await response.json();
-  const container = document.getElementById('pokemon-container');
 
-  // Erst alle Daten sammeln, dann einmalig rendern (Performance!)
   let htmlCollector = '';
   for (let pokemon of data.results) {
     const detailRes = await fetch(pokemon.url);
     const detailData = await detailRes.json();
     htmlCollector += getPokemonCardTemplate(pokemon, detailData);
   }
-  container.innerHTML = htmlCollector;
+
+  // Beim ersten Aufruf (OFFSET 0) den "Lade..." Text löschen
+  if (OFFSET === 0) CONTAINER.innerHTML = '';
+
+  // Neue Karten hinzufügen
+  CONTAINER.innerHTML += htmlCollector;
+
+  // OFFSET für den nächsten Klick erhöhen
+  OFFSET += LIMIT;
 }
 
 async function openPokeDialog(name) {
@@ -96,8 +107,19 @@ function openTab(evt, tabName) {
   if (evt) evt.currentTarget.classList.add('active');
 }
 
-function closeDialog() {
-  document.getElementById('pokeDialog').style.display = 'none';
-}
-
 getPokemon();
+
+async function loadMore() {
+  const btn = document.querySelector('.load-btn');
+  const overlay = document.getElementById('spinner-overlay');
+
+  btn.style.display = 'none';
+  overlay.style.display = 'flex'; // Overlay anzeigen
+
+  await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 Sekunden Pause
+
+  await getPokemon();
+
+  overlay.style.display = 'none';
+  btn.style.display = 'block';
+}
