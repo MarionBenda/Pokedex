@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="./style/style.css" />
     <link rel="stylesheet" href="./style/fonts.css" />
     <link rel="stylesheet" href="./style/buttons.css" />
+    <link rel="stylesheet" href="./style/dialog.css" />
     <script src="./scripts/db.js"></script>
-    <script src="./scripts/templates.js"></script>
 
     <link
       rel="icon"
@@ -46,6 +46,71 @@
     </main>
 
     <footer></footer>
+    <dialog id="pokeDialog" class="modal">
+      <div class="modal-content">
+        <!-- Neuer Header-Bereich -->
+        <div
+          class="modal-header"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+          "
+        >
+          <h2 id="pokemon-title" style="margin: 0; font-size: 1.5rem">
+            <!-- Wird per JS befüllt: #001 Bisasam -->
+          </h2>
+          <span
+            class="close-btn"
+            onclick="closeDialog()"
+            style="cursor: pointer; font-size: 2rem"
+            >&times;</span
+          >
+        </div>
+        <div
+          id="image-container"
+          style="
+            text-align: center;
+            border-radius: 15px;
+            margin: 10px 0;
+            padding: 20px;
+          "
+        >
+          <img id="header-image" src="" style="width: 150px" />
+        </div>
+
+        <!-- Tab-Header (Buttons) -->
+        <div class="tab-header">
+          <button
+            class="tab-link active"
+            onclick="openTab(event, 'main-container')"
+          >
+            Main
+          </button>
+          <button class="tab-link" onclick="openTab(event, 'stats-container')">
+            Stats
+          </button>
+          <button class="tab-link" onclick="openTab(event, 'evo-container')">
+            Entwicklung
+          </button>
+        </div>
+
+        <!-- Tab-Inhalte wie gehabt -->
+        <div
+          id="main-container"
+          class="tab-content"
+          style="display: block"
+        ></div>
+        <div
+          id="stats-container"
+          class="tab-content"
+          style="display: none"
+        ></div>
+        <div id="evo-container" class="tab-content" style="display: none"></div>
+      </div>
+    </dialog>
   </body>
+  <script src="./scripts/templates.js"></script>
   <script src="./scripts/scripts.js"></script>
 </html>
