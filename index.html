@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./style/buttons.css" />
     <link rel="stylesheet" href="./style/dialog.css" />
     <link rel="stylesheet" href="./style/loading-spinner.css" />
-    <script src="./scripts/db.js"></script>
+    <link rel="stylesheet" href="./style/media-query.css" />
 
     <link
       rel="icon"
@@ -31,6 +31,7 @@
             type="text"
             id="searchInput"
             placeholder="Suche..."
+            onkeyup="searchPokemon()"
           />
         </div>
       </div>
@@ -53,7 +54,16 @@
       </section>
     </main>
 
-    <footer></footer>
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2026 Pokedex - All Rights Reserved</p>
+        <div class="footer-links">
+          <a href="#">Impressum</a>
+          <a href="#">Datenschutz</a>
+          <a href="#">Kontakt</a>
+        </div>
+      </div>
+    </footer>
     <dialog id="pokeDialog" class="modal">
       <div class="modal-content">
         <!-- Neuer Header-Bereich -->
@@ -87,7 +97,15 @@
         >
           <img id="header-image" src="" style="width: 150px" />
         </div>
-
+        <div
+          id="dialog-type-icons"
+          style="
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+          "
+        ></div>
         <!-- Tab-Header (Buttons) -->
         <div class="tab-header">
           <button
@@ -119,6 +137,7 @@
       </div>
     </dialog>
   </body>
+  <script src="./scripts/db.js"></script>
   <script src="./scripts/templates.js"></script>
   <script src="./scripts/scripts.js"></script>
 </html>

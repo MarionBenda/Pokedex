@@ -10,50 +10,69 @@ function getMainTemplate(pokemon) {
   `;
 }
 
-function getPokemonCardTemplate(pokemon, detailData) {
-  // 1. Hintergrundfarbe basierend auf dem ersten Typ ermitteln
-  const mainType = detailData.types[0].type.name;
-  const bgColor = typeColors[mainType] || '#F5F5F5';
+function getTypeIconsTemplate(types) {
+  return types
+    .map((t) => {
+      const typeName = t.type.name;
+      const typeColor = TYPE_COLORS[typeName] || '#666';
+      return `
+      <div style="background-color: ${typeColor}; border-radius: 50%; width: 40px; height: 40px; 
+                  display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.2);">
+        <img src="./assets/icons/${typeName}.svg" style="width: 22px; height: 22px; filter: brightness(0) invert(1);">
+      </div>`;
+    })
+    .join('');
+}
 
-  // 2. ID formatieren (z.B. #001)
+function getPokemonCardTemplate(pokemon, detailData) {
+  // 1. Hintergrundfarbe für das Hauptbild ermitteln
+  const mainType = detailData.types[0].type.name;
+  const bgColor = TYPE_COLORS[mainType] || '#F5F5F5';
   const pokemonId = `#${detailData.id.toString().padStart(3, '0')}`;
 
-  // 3. Typ-Icons (Badges) generieren
+  // 2. Typ-Icons (SVGs) generieren
   const typesHtml = detailData.types
     .map((t) => {
-      const typeColor = typeColors[t.type.name] || '#666';
+      const typeName = t.type.name;
+      const typeColor = TYPE_COLORS[typeName] || '#666';
+
       return `
-      <span style="
+      <div title="${typeName}" style="
         background-color: ${typeColor}; 
-        color: #333; 
-        padding: 2px 8px; 
-        border-radius: 12px; 
-        font-size: 0.7rem; 
-        font-weight: bold; 
-        text-transform: uppercase;
-        border: 1px solid rgba(0,0,0,0.1);
-      ">${t.type.name}</span>`;
+        border-radius: 50%; 
+        width: 38px; 
+        height: 38px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      ">
+        <img src="./assets/icons/${typeName}.svg" 
+             alt="${typeName}" 
+             style="width: 22px; height: 22px; filter: brightness(0) invert(1);">
+      </div>`;
     })
     .join(' ');
 
-  // 4. Das Template zurückgeben (Struktur wie im Dialog-Header)
+  // 3. Das finale Karten-Template
   return `
     <div class="pokemon-card" onclick="openPokeDialog('${pokemon.name}')">
-        <!-- Header: Nummer und Name nebeneinander -->
-        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 10px;">
+        <!-- Header: ID und Name -->
+        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center; margin-bottom: 12px;">
             <span style="font-weight: bold; color: #888;">${pokemonId}</span>
-            <h3 style="margin: 0; font-size: 1.1rem;">${pokemon.name.toUpperCase()}</h3>
+            <h3 style="margin: 0; font-size: 1.1rem; color: #fff; letter-spacing: 1px;">${pokemon.name.toUpperCase()}</h3>
         </div>
         
-        <!-- Bild-Container mit Hintergrundfarbe der Pokémon-Art -->
-        <div style="background-color: ${bgColor}; border-radius: 15px; width: 100%; text-align: center; padding: 15px;">
+        <!-- Bild-Bereich mit dynamischem Hintergrund -->
+        <div style="background-color: ${bgColor}; border-radius: 15px; width: 100%; text-align: center; padding: 20px; box-shadow: inset 0 0 20px rgba(0,0,0,0.2);">
             <img src="${detailData.sprites.other['official-artwork'].front_default}" 
                  alt="${pokemon.name}" 
-                 style="width: 120px; height: 120px; object-fit: contain;">
+                 style="width: 130px; height: 130px; object-fit: contain;">
         </div>
 
-        <!-- Typ-Icons unter dem Foto -->
-        <div style="display: flex; gap: 5px; justify-content: center; margin-top: 10px;">
+        <!-- Typ-Icons Reihe -->
+        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 15px;">
             ${typesHtml}
         </div>
     </div>

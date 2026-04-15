@@ -1,46 +1,51 @@
-const url = 'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0';
+async function searchPokemon() {
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const loadMoreBtn = document.querySelector('.load-content');
 
-const LIMIT = 20;
-const CONTAINER = document.getElementById('pokemon-container');
-let OFFSET = 0;
-
-const typeColors = {
-  fire: '#631212',
-  grass: '#0D2B1D',
-  electric: '#4A3F05',
-  water: '#0A2342',
-  ground: '#3B2A1E',
-  rock: '#2A2A2B',
-  fairy: '#4A1942',
-  poison: '#2D4231',
-  bug: '	#3B341F',
-  dragon: '#1D2B53',
-  psychic: '#524E1',
-  flying: '#2F3E46',
-  fighting: '#4A2E1F',
-  normal: '#1B1B1B',
-};
+  // Ab 3 Zeichen wird gefiltert
+  if (input.length >= 3) {
+    loadMoreBtn.style.display = 'none';
+    const filtered = ALL_POKEMON_DATA.filter((p) =>
+      p.name.toLowerCase().includes(input),
+    );
+    CONTAINER.innerHTML = filtered
+      .map((p) => getPokemonCardTemplate(p, p))
+      .join('');
+  }
+  // Wenn weniger als 3 Zeichen (inklusive 0), zeige wieder alle geladenen an
+  else {
+    loadMoreBtn.style.display = 'block';
+    renderPokemonList(); // Hier stand vorher renderMainList (Fehler)
+  }
+}
 
 async function getPokemon() {
   const url = `https://pokeapi.co/api/v2/pokemon?limit=${LIMIT}&offset=${OFFSET}`;
   const response = await fetch(url);
   const data = await response.json();
 
-  let htmlCollector = '';
   for (let pokemon of data.results) {
     const detailRes = await fetch(pokemon.url);
     const detailData = await detailRes.json();
-    htmlCollector += getPokemonCardTemplate(pokemon, detailData);
+    // WICHTIG: Die Daten im globalen Speicher für die Suche ablegen
+    ALL_POKEMON_DATA.push(detailData);
   }
 
-  // Beim ersten Aufruf (OFFSET 0) den "Lade..." Text löschen
-  if (OFFSET === 0) CONTAINER.innerHTML = '';
-
-  // Neue Karten hinzufügen
-  CONTAINER.innerHTML += htmlCollector;
+  // Das eigentliche Zeichnen der Karten auslagern
+  renderPokemonList();
 
   // OFFSET für den nächsten Klick erhöhen
   OFFSET += LIMIT;
+}
+
+// Hilfsfunktion: Zeichnet alle aktuell geladenen Pokemon in den CONTAINER
+function renderPokemonList() {
+  // Container leeren
+  CONTAINER.innerHTML = '';
+  // Karten aus dem globalen Array generieren
+  ALL_POKEMON_DATA.forEach((pokemon) => {
+    CONTAINER.innerHTML += getPokemonCardTemplate(pokemon, pokemon);
+  });
 }
 
 async function openPokeDialog(name) {
@@ -49,21 +54,18 @@ async function openPokeDialog(name) {
   );
   const s = await fetch(p.species.url).then((r) => r.json());
   const e = await fetch(s.evolution_chain.url).then((r) => r.json());
-
-  // Header-Texte & Bild setzen
   document.getElementById('pokemon-title').innerText =
     `#${p.id.toString().padStart(3, '0')} ${p.name.toUpperCase()}`;
   document.getElementById('header-image').src =
     p.sprites.other['official-artwork'].front_default;
-
-  // NUR den Bild-Hintergrund färben
-  const color = typeColors[p.types[0].type.name] || '#FFF';
-  document.getElementById('image-container').style.backgroundColor = color;
-
+  document.getElementById('image-container').style.backgroundColor =
+    TYPE_COLORS[p.types[0].type.name] || '#FFF';
+  document.getElementById('dialog-type-icons').innerHTML = getTypeIconsTemplate(
+    p.types,
+  );
   document.getElementById('main-container').innerHTML = getMainTemplate(p);
   document.getElementById('stats-container').innerHTML = getStatsTemplate(p);
   await renderEvolutionTab(e);
-
   openTab(null, 'main-container');
   document.getElementById('pokeDialog').style.display = 'flex';
   document.body.style.overflow = 'hidden';

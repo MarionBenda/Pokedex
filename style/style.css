@@ -24,20 +24,18 @@ footer {
   display: flex;
   justify-content: center;
   background-color: var(--clr-primary-bg);
-  height: 200px;
+  height: 200px; /* Fixe Höhe */
   width: 100%;
-  overflow: hidden;
 }
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: space-between; /* Erzeugt den maximalen Abstand zwischen Elementen */
   align-items: center;
   width: 100%;
   max-width: 1920px;
-  height: 100%;
-  padding: 0 2vw;
-  gap: 20px;
+  padding: 0 5vw;
 }
 
 .header-logo {
@@ -46,17 +44,17 @@ footer {
 }
 
 header img {
-  max-height: 150px;
-  max-width: 30%;
-  height: auto;
+  max-height: 150px; /* Großes Logo auf Desktop */
   width: auto;
   object-fit: contain;
-  flex-shrink: 1;
+}
+
+.header-logo h1 {
+  font-size: 1.5rem;
 }
 
 .search-container {
-  width: 100%;
-  max-width: 400px;
+  max-width: 90%;
 }
 
 .search-input {
@@ -114,6 +112,62 @@ header img {
   border-color: #ff1f1f;
   box-shadow:
     0 0 15px #ff1f1f,
-    0 0 30px rgba(255, 31, 31, 0.4); 
+    0 0 30px rgba(255, 31, 31, 0.4);
   transform: scale(1.05);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1920px;
+  /* Dynamischer Abstand: min 10px, max 20px */
+  gap: clamp(10px, 2vh, 20px);
+  padding: 10px 5vw;
+}
+
+.footer-content p {
+  text-align: center;
+  margin: 0;
+  color: white;
+  /* Dynamische Schrift: min 18px, skaliert mit Breite, max 32px */
+  font-size: clamp(18px, 4vw, 32px);
+  font-weight: bold;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(10px, 3vw, 30px);
+}
+
+footer a {
+  color: white;
+  /* Dynamische Schrift: min 16px, skaliert mit Breite, max 28px */
+  font-size: clamp(16px, 3vw, 28px);
+  padding: 4px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+footer a:hover {
+  outline: 2px solid #ff4d4d;
+  outline-offset: 2px;
+
+  /* Dein spezifischer Glow-Effekt */
+  box-shadow:
+    0 0 15px #ff4d4d,
+    0 0 5px rgba(230, 57, 70, 0.6);
+
+  /* Optional: Hintergrundfarbe wie bei der Suchleiste */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Transparentes Weiß wirkt im Footer edler */
+  color: #ff4d4d;
 }
