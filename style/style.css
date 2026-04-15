@@ -8,6 +8,17 @@ h1 {
   margin: 0;
   white-space: nowrap;
 }
+
+h3 {
+  font-family: 'palanquin', cursive;
+  color: #ffffff;
+  text-shadow:
+    0 0 8px #ff4d4d,
+    0 0 2px rgba(230, 57, 70, 0.8);
+  font-size: clamp(1rem, 4vw, 2rem);
+  margin: 10px 0;
+}
+
 header,
 footer {
   display: flex;
@@ -78,4 +89,31 @@ header img {
   gap: 20px;
   justify-content: center;
   width: 100%;
+}
+
+.pokemon-card {
+  background-color: var(--clr-tertiary-bg);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 300px;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.pokemon-card img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.pokemon-card:hover {
+  border-color: #ff1f1f;
+  box-shadow:
+    0 0 15px #ff1f1f,
+    0 0 30px rgba(255, 31, 31, 0.4); 
+  transform: scale(1.05);
 }

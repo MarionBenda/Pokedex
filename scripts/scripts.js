@@ -5,20 +5,20 @@ const CONTAINER = document.getElementById('pokemon-container');
 let OFFSET = 0;
 
 const typeColors = {
-  fire: '#FDDFDF',
-  grass: '#DEFDE0',
-  electric: '#FCF7DE',
-  water: '#DEF3FD',
-  ground: '#f4e7da',
-  rock: '#d5d5d4',
-  fairy: '#fceaff',
-  poison: '#98d7a5',
-  bug: '#f8d5a3',
-  dragon: '#97b3e1',
-  psychic: '#eaeda1',
-  flying: '#F5F5F5',
-  fighting: '#E6E0D4',
-  normal: '#F5F5F5',
+  fire: '#631212',
+  grass: '#0D2B1D',
+  electric: '#4A3F05',
+  water: '#0A2342',
+  ground: '#3B2A1E',
+  rock: '#2A2A2B',
+  fairy: '#4A1942',
+  poison: '#2D4231',
+  bug: '	#3B341F',
+  dragon: '#1D2B53',
+  psychic: '#524E1',
+  flying: '#2F3E46',
+  fighting: '#4A2E1F',
+  normal: '#1B1B1B',
 };
 
 async function getPokemon() {
