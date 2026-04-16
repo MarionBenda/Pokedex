@@ -1,9 +1,8 @@
 const URL = 'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0';
-const LIMIT = 12;
+const LIMIT = 9;
 const CONTAINER = document.getElementById('pokemon-container');
 let OFFSET = 0;
 
-// Hier speichern wir alle geladenen Pokémon-Daten für die Suche
 let ALL_POKEMON_DATA = [];
 
 const TYPE_COLORS = {

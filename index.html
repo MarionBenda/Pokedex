@@ -42,8 +42,8 @@
           <p>Lade Pokémon...</p>
         </div>
       </section>
-      <section class="load-content">
-        <div id="spinner-overlay" style="display: none">
+      <section class="load-content-area">
+        <div id="spinner-overlay" class="loader-overlay">
           <img
             src="./assets/img/spinner.png"
             class="pokeball-spinner"
@@ -58,54 +58,25 @@
       <div class="footer-content">
         <p>&copy; 2026 Pokedex - All Rights Reserved</p>
         <div class="footer-links">
-          <a href="#">Impressum</a>
-          <a href="#">Datenschutz</a>
-          <a href="#">Kontakt</a>
+          <a href="#">imprint</a>
+          <a href="#">data protection</a>
+          <a href="#">contact</a>
         </div>
       </div>
     </footer>
     <dialog id="pokeDialog" class="modal">
       <div class="modal-content">
         <!-- Neuer Header-Bereich -->
-        <div
-          class="modal-header"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-          "
-        >
-          <h2 id="pokemon-title" style="margin: 0; font-size: 1.5rem">
+        <div class="modal-header">
+          <h2 id="pokemon-title" class="pokemon-title-container">
             <!-- Wird per JS befüllt: #001 Bisasam -->
           </h2>
-          <span
-            class="close-btn"
-            onclick="closeDialog()"
-            style="cursor: pointer; font-size: 2rem"
-            >&times;</span
-          >
+          <span class="close-btn" onclick="closeDialog()">&times;</span>
         </div>
-        <div
-          id="image-container"
-          style="
-            text-align: center;
-            border-radius: 15px;
-            margin: 10px 0;
-            padding: 20px;
-          "
-        >
+        <div id="image-container" class="image-container">
           <img id="header-image" src="" style="width: 150px" />
         </div>
-        <div
-          id="dialog-type-icons"
-          style="
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 15px;
-          "
-        ></div>
+        <div id="dialog-type-icons" class="dialog-type-icons"></div>
         <!-- Tab-Header (Buttons) -->
         <div class="tab-header">
           <button
@@ -122,18 +93,9 @@
           </button>
         </div>
 
-        <!-- Tab-Inhalte wie gehabt -->
-        <div
-          id="main-container"
-          class="tab-content"
-          style="display: block"
-        ></div>
-        <div
-          id="stats-container"
-          class="tab-content"
-          style="display: none"
-        ></div>
-        <div id="evo-container" class="tab-content" style="display: none"></div>
+        <div id="main-container" class="tab-content"></div>
+        <div id="stats-container" class="tab-content"></div>
+        <div id="evo-container" class="tab-content evo-container-list"></div>
       </div>
     </dialog>
   </body>

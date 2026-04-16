@@ -24,18 +24,25 @@ footer {
   display: flex;
   justify-content: center;
   background-color: var(--clr-primary-bg);
-  height: 200px; /* Fixe Höhe */
+  height: auto;
+  min-height: 100px;
   width: 100%;
+  padding: 20px 0;
+  margin-top: auto;
 }
 
-.header-content {
+.header-content,
+.footer-content {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between; /* Erzeugt den maximalen Abstand zwischen Elementen */
-  align-items: center;
   width: 100%;
   max-width: 1920px;
   padding: 0 5vw;
+}
+
+.header-content {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header-logo {
@@ -44,7 +51,7 @@ footer {
 }
 
 header img {
-  max-height: 150px; /* Großes Logo auf Desktop */
+  max-height: 100px;
   width: auto;
   object-fit: contain;
 }
@@ -68,9 +75,13 @@ header img {
 }
 
 .main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 1920px;
-  padding: 20px 0;
+  margin: 0 auto;
 }
 
 .load-content {
@@ -84,8 +95,9 @@ header img {
 .pokemon-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 15px;
   justify-content: center;
+  align-content: center;
   width: 100%;
 }
 
@@ -94,17 +106,28 @@ header img {
   border-radius: 12px;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  width: 300px;
-  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  width: 240px;
+  height: 250px;
+  flex-shrink: 0;
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.3s ease;
 }
 
+.pokemon-image-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 5px 0;
+}
+
 .pokemon-card img {
-  width: 100%;
-  height: auto;
+  max-height: 120px;
+  width: auto;
   object-fit: contain;
 }
 
@@ -116,25 +139,83 @@ header img {
   transform: scale(1.05);
 }
 
-.footer-content {
+.card-types-row {
   display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* Typ-Icon Kreis */
+.type-icon-circle {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.type-icon-small {
+  width: 40px;
+  height: 40px;
+}
+
+.type-icon-card {
+  width: 38px;
+  height: 38px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.type-icon-img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 12px;
+  font-family: palanquin, cursive;
+}
+
+.pokemon-id-label {
+  font-weight: bold;
+  color: #888;
+}
+
+.pokemon-name-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  background-color: var(--clr-primary-bg);
+  height: auto;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.footer-content {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: 1920px;
-  /* Dynamischer Abstand: min 10px, max 20px */
-  gap: clamp(10px, 2vh, 20px);
-  padding: 10px 5vw;
 }
 
 .footer-content p {
   text-align: center;
   margin: 0;
   color: white;
-  /* Dynamische Schrift: min 18px, skaliert mit Breite, max 32px */
-  font-size: clamp(18px, 4vw, 32px);
+  font-size: clamp(18px, 4vw, 28px);
   font-weight: bold;
+  font-family: palanquin, cursive;
 }
 
 .footer-links {
@@ -146,28 +227,21 @@ header img {
 
 footer a {
   color: white;
-  /* Dynamische Schrift: min 16px, skaliert mit Breite, max 28px */
   font-size: clamp(16px, 3vw, 28px);
   padding: 4px 12px;
   border-radius: 8px;
   transition: all 0.3s ease;
+  font-family: palanquin, cursive;
 }
 
 footer a:hover {
   outline: 2px solid #ff4d4d;
   outline-offset: 2px;
 
-  /* Dein spezifischer Glow-Effekt */
   box-shadow:
     0 0 15px #ff4d4d,
     0 0 5px rgba(230, 57, 70, 0.6);
 
-  /* Optional: Hintergrundfarbe wie bei der Suchleiste */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Transparentes Weiß wirkt im Footer edler */
+  background-color: rgba(255, 255, 255, 0.1);
   color: #ff4d4d;
 }

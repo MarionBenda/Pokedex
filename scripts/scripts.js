@@ -1,20 +1,16 @@
 async function searchPokemon() {
   const input = document.getElementById('searchInput').value.toLowerCase();
   const loadMoreBtn = document.querySelector('.load-content');
-
-  // Ab 3 Zeichen wird gefiltert
   if (input.length >= 3) {
-    loadMoreBtn.style.display = 'none';
+    loadMoreBtn.classList.add('d-none');
     const filtered = ALL_POKEMON_DATA.filter((p) =>
       p.name.toLowerCase().includes(input),
     );
     CONTAINER.innerHTML = filtered
       .map((p) => getPokemonCardTemplate(p, p))
       .join('');
-  }
-  // Wenn weniger als 3 Zeichen (inklusive 0), zeige wieder alle geladenen an
-  else {
-    loadMoreBtn.style.display = 'block';
+  } else {
+    loadMoreBtn.classList.remove('d-none'); // HINZUFÜGEN
     renderPokemonList(); // Hier stand vorher renderMainList (Fehler)
   }
 }
@@ -27,22 +23,18 @@ async function getPokemon() {
   for (let pokemon of data.results) {
     const detailRes = await fetch(pokemon.url);
     const detailData = await detailRes.json();
-    // WICHTIG: Die Daten im globalen Speicher für die Suche ablegen
+
     ALL_POKEMON_DATA.push(detailData);
   }
 
-  // Das eigentliche Zeichnen der Karten auslagern
   renderPokemonList();
 
-  // OFFSET für den nächsten Klick erhöhen
   OFFSET += LIMIT;
 }
 
-// Hilfsfunktion: Zeichnet alle aktuell geladenen Pokemon in den CONTAINER
 function renderPokemonList() {
-  // Container leeren
   CONTAINER.innerHTML = '';
-  // Karten aus dem globalen Array generieren
+
   ALL_POKEMON_DATA.forEach((pokemon) => {
     CONTAINER.innerHTML += getPokemonCardTemplate(pokemon, pokemon);
   });
@@ -54,8 +46,9 @@ async function openPokeDialog(name) {
   );
   const s = await fetch(p.species.url).then((r) => r.json());
   const e = await fetch(s.evolution_chain.url).then((r) => r.json());
-  document.getElementById('pokemon-title').innerText =
-    `#${p.id.toString().padStart(3, '0')} ${p.name.toUpperCase()}`;
+  const formattedId = `#${p.id.toString().padStart(3, '0')}`;
+  document.getElementById('pokemon-title').innerHTML =
+    `<span class="pokemon-id-num">${formattedId}</span><span class="pokemon-name-text">${p.name}</span>`;
   document.getElementById('header-image').src =
     p.sprites.other['official-artwork'].front_default;
   document.getElementById('image-container').style.backgroundColor =
@@ -67,16 +60,17 @@ async function openPokeDialog(name) {
   document.getElementById('stats-container').innerHTML = getStatsTemplate(p);
   await renderEvolutionTab(e);
   openTab(null, 'main-container');
-  document.getElementById('pokeDialog').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  document.getElementById('pokeDialog').classList.add('is-visible');
+  document.body.classList.add('no-scroll');
 }
 
 function closeDialog() {
-  document.getElementById('pokeDialog').style.display = 'none';
-  document.body.style.overflow = 'auto';
+  document.getElementById('pokeDialog').classList.remove('is-visible'); // HINZUFÜGEN
+  document.body.classList.remove('no-scroll');
 }
 
 async function renderEvolutionTab(evoData) {
+  // Findet das Element über die ID, nutzt aber das Klassen-Styling aus dem CSS
   const evoContainer = document.getElementById('evo-container');
   const evoChainNames = [];
   let currentStep = evoData.chain;
@@ -99,14 +93,21 @@ async function renderEvolutionTab(evoData) {
 }
 
 function openTab(evt, tabName) {
+  // 1. Alle Inhalte verstecken
   const contents = document.getElementsByClassName('tab-content');
-  for (let content of contents) content.style.display = 'none';
+  for (let content of contents) {
+    content.classList.remove('active');
+  }
 
   const links = document.getElementsByClassName('tab-link');
-  for (let link of links) link.classList.remove('active');
+  for (let link of links) {
+    link.classList.remove('active');
+  }
 
-  document.getElementById(tabName).style.display = 'block';
-  if (evt) evt.currentTarget.classList.add('active');
+  document.getElementById(tabName).classList.add('active');
+  if (evt) {
+    evt.currentTarget.classList.add('active');
+  }
 }
 
 getPokemon();
@@ -115,13 +116,19 @@ async function loadMore() {
   const btn = document.querySelector('.load-btn');
   const overlay = document.getElementById('spinner-overlay');
 
-  btn.style.display = 'none';
-  overlay.style.display = 'flex'; // Overlay anzeigen
+  overlay.classList.add('is-loading');
+  btn.classList.add('hidden');
 
-  await new Promise((resolve) => setTimeout(resolve, 5000)); // 5 Sekunden Pause
+  document.body.style.height = 'auto';
+  document.body.style.overflowY = 'auto';
+  document.querySelector('main').style.height = 'auto';
+  document.querySelector('main').style.overflow = 'visible';
 
+  // 3. Daten laden
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   await getPokemon();
 
-  overlay.style.display = 'none';
-  btn.style.display = 'block';
+  // 4. Spinner weg, Button wieder da
+  overlay.classList.remove('is-loading');
+  btn.classList.remove('hidden');
 }
