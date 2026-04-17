@@ -3,12 +3,11 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  grid-column: 1 / -1; /* Erstreckt sich über alle Grid-Spalten */
+  grid-column: 1 / -1;
   min-height: 300px;
   padding: 20px;
 }
 
-/* Der eigentliche Text-Block */
 .search-error-content {
   text-align: center;
   background-color: #17161d;

@@ -1,4 +1,10 @@
 h1,
+h3,
+footer p,
+footer a {
+  font-family: 'palanquin', cursive;
+}
+h1,
 h3 {
   text-shadow:
     0 0 8px #ff4d4d,
@@ -11,13 +17,6 @@ h1 {
   font-size: clamp(1.5rem, 6vw, 4rem);
   margin: 0;
   white-space: nowrap;
-}
-
-h3 {
-  font-family: 'palanquin', cursive;
-  color: #fff;
-  font-size: clamp(1rem, 4vw, 2rem);
-  margin: 10px 0;
 }
 
 header,
@@ -203,27 +202,21 @@ footer {
   width: 100%;
   padding: 20px 0;
 }
-
 .footer-content {
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
-
 .footer-content p {
-  text-align: center;
-  margin: 0;
   color: white;
   font-size: clamp(18px, 4vw, 28px);
   font-weight: bold;
-  font-family: palanquin, cursive;
+  margin: 0;
 }
-
 .footer-links {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: clamp(10px, 3vw, 30px);
+  margin-top: 10px;
 }
 
 footer a {
@@ -232,17 +225,14 @@ footer a {
   padding: 4px 12px;
   border-radius: 8px;
   transition: all 0.3s ease;
-  font-family: palanquin, cursive;
 }
 
 footer a:hover {
   outline: 2px solid #ff4d4d;
   outline-offset: 2px;
-
   box-shadow:
     0 0 15px #ff4d4d,
     0 0 5px rgba(230, 57, 70, 0.6);
-
   background-color: rgba(255, 255, 255, 0.1);
   color: #ff4d4d;
 }

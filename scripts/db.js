@@ -4,6 +4,8 @@ let OFFSET = 0;
 
 let ALL_POKEMON_DATA = [];
 
+let currentPokemonName = '';
+
 const TYPE_COLORS = {
   fire: '#631212',
   grass: '#0D2B1D',

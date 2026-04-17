@@ -11,12 +11,10 @@
   z-index: 2000;
 }
 
-/* Sichtbarer Zustand: Zwei Klassen sind stärker als eine */
 .loader-overlay.is-loading {
   display: flex;
 }
 
-/* Button-Sektion Zentrierung */
 .load-content-area {
   display: flex;
   width: 100%;

@@ -76,6 +76,9 @@
         </div>
         <div id="dialogTypeIcons" class="dialog-type-icons"></div>
         <div class="tab-header">
+          <button class="nav-btn prev-btn" onclick="changePokemon(event, -1)">
+            <span>&#10094;</span>
+          </button>
           <button
             class="tab-link active"
             onclick="openTab(event, 'mainContainer')"
@@ -88,11 +91,16 @@
           <button class="tab-link" onclick="openTab(event, 'evoContainer')">
             Evolution
           </button>
+
+          <button class="nav-btn next-btn" onclick="changePokemon(event, 1)">
+            <span>&#10095;</span>
+          </button>
         </div>
 
         <div id="mainContainer" class="tab-content"></div>
         <div id="statsContainer" class="tab-content"></div>
         <div id="evoContainer" class="tab-content evo-container-list"></div>
+        <div class="nav-menu-dialog"></div>
       </div>
     </dialog>
   </body>

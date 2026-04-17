@@ -39,6 +39,7 @@ function renderPokemonList() {
 }
 
 async function openPokeDialog(name) {
+  currentPokemonName = name;
   const pokemon = ALL_POKEMON_DATA.find((p) => p.name === name);
   if (!pokemon) return;
 
@@ -78,6 +79,23 @@ function updateDialogUI(p) {
   );
   document.getElementById('mainContainer').innerHTML = getMainTemplate(p);
   document.getElementById('statsContainer').innerHTML = getStatsTemplate(p);
+}
+
+function changePokemon(event, direction) {
+  event.stopPropagation(); // WICHTIG: Verhindert das Schließen des Dialogs
+
+  // Finde heraus, an welcher Stelle wir gerade sind
+  const currentIndex = ALL_POKEMON_DATA.findIndex(
+    (p) => p.name === currentPokemonName,
+  );
+  let nextIndex = currentIndex + direction;
+
+  // Verhindert "Out of Bounds" (Endlos-Schleife)
+  if (nextIndex >= ALL_POKEMON_DATA.length) nextIndex = 0;
+  if (nextIndex < 0) nextIndex = ALL_POKEMON_DATA.length - 1;
+
+  const nextPokemon = ALL_POKEMON_DATA[nextIndex];
+  openPokeDialog(nextPokemon.name);
 }
 
 function closeDialog() {

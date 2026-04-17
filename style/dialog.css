@@ -26,12 +26,11 @@
   border: none;
   background: transparent;
   padding: 0;
-  margin: auto;
+  margin: auto; /* Browser zentriert <dialog> hiermit automatisch */
   overflow: visible;
   position: fixed;
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  outline: none;
+  max-width: 100vw;
 }
 
 .pokemon-modal[open] {
@@ -97,7 +96,7 @@
 
 .tab-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 15px;
   border-bottom: 2px solid #eee;
   padding: 10px 0 2px;
@@ -112,6 +111,7 @@
   font-weight: bold;
   color: gray;
   cursor: pointer;
+  flex-shrink: 1;
 }
 
 .tab-link:hover {
@@ -141,6 +141,15 @@ div.tab-content.evo-container-list.active {
   justify-content: center;
   gap: 5px;
   width: 100%;
+}
+
+.evo-container-list {
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 20px;
+  width: 100%;
+  padding: 10px 0;
 }
 
 .pokemon-info-container,
@@ -200,15 +209,13 @@ div.tab-content.evo-container-list.active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 1 30%;
   min-width: 80px;
-  max-width: 150px;
 }
 
 .evo-img {
-  width: 100%;
-  max-width: 70px;
-  height: auto;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
 }
 
 .evo-name {
@@ -224,7 +231,8 @@ div.tab-content.evo-container-list.active {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 5px;
+  height: 80px;
+  margin-top: -20px;
   flex: 0 0 auto;
 }
 
