@@ -1,7 +1,6 @@
 async function searchPokemon() {
   const input = document.getElementById('searchInput').value.toLowerCase();
   const btn = document.querySelector('.load-btn');
-
   if (input.length < 3) {
     if (btn) btn.classList.remove('d-none');
     return renderPokemonList();
@@ -10,13 +9,10 @@ async function searchPokemon() {
   const filtered = ALL_POKEMON_DATA.filter((p) =>
     p.name.toLowerCase().includes(input),
   );
-  if (filtered.length === 0) {
-    CONTAINER.innerHTML = getErrorTemplate(input);
-  } else {
-    CONTAINER.innerHTML = filtered
-      .map((p) => getPokemonCardTemplate(p))
-      .join('');
-  }
+  CONTAINER.innerHTML =
+    filtered.length === 0
+      ? getErrorTemplate(input)
+      : filtered.map((p) => getPokemonCardTemplate(p)).join('');
 }
 
 async function getPokemon() {
