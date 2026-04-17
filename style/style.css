@@ -1,9 +1,13 @@
-h1 {
-  font-family: 'frijole', cursive;
-  color: #2c3e50;
+h1,
+h3 {
   text-shadow:
     0 0 8px #ff4d4d,
     0 0 2px rgba(230, 57, 70, 0.8);
+}
+
+h1 {
+  font-family: 'frijole', cursive;
+  color: #2c3e50;
   font-size: clamp(1.5rem, 6vw, 4rem);
   margin: 0;
   white-space: nowrap;
@@ -11,10 +15,7 @@ h1 {
 
 h3 {
   font-family: 'palanquin', cursive;
-  color: #ffffff;
-  text-shadow:
-    0 0 8px #ff4d4d,
-    0 0 2px rgba(230, 57, 70, 0.8);
+  color: #fff;
   font-size: clamp(1rem, 4vw, 2rem);
   margin: 10px 0;
 }
@@ -99,6 +100,7 @@ header img {
   justify-content: center;
   align-content: center;
   width: 100%;
+  padding: 5px 0;
 }
 
 .pokemon-card {
@@ -146,7 +148,6 @@ header img {
   margin-top: 10px;
 }
 
-/* Typ-Icon Kreis */
 .type-icon-circle {
   border-radius: 50%;
   display: flex;

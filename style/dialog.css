@@ -14,15 +14,39 @@
 
 .modal-header {
   display: flex;
-  flex-wrap: wrap; /* Erlaubt Umbruch auf sehr kleinen Bildschirmen */
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  gap: 10px; /* Sicherer Mindestabstand */
+  gap: 10px;
   margin-bottom: 15px;
 }
 
-.modal.is-visible {
+.pokemon-modal {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: auto;
+  overflow: visible;
+  position: fixed;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pokemon-modal[open] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pokemon-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+.modal.is-visible,
+.dialog-overlay.is-visible {
   display: flex;
 }
 
@@ -31,14 +55,16 @@
   background-color: var(--clr-tertiary-bg, #17161d);
   padding: 20px;
   border-radius: 15px;
-  width: 90%;
+  width: 95%;
   max-width: 500px;
-  height: 800px;
+  /* height: 800px; */
   display: flex;
   flex-direction: column;
   color: white;
   position: relative;
   overflow: hidden;
+  height: clamp(550px, 95vh, 800px);
+  max-height: 95vh;
 }
 
 .modal-types-row {
@@ -113,17 +139,15 @@ div.tab-content.evo-container-list.active {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  height: auto;
-  min-height: 300px;
-  gap: 20px;
+  gap: 5px;
+  width: 100%;
 }
 
 .pokemon-info-container,
 .stats-container-list {
   text-align: left;
   margin-top: 15px;
-  font-size: clamp(16px, 2.5vw, 32px);
+  font-size: clamp(16px, 2.8vw, 28px);
   line-height: 1.4;
 }
 
@@ -134,12 +158,21 @@ div.tab-content.evo-container-list.active {
   margin-right: 8px;
 }
 
+.stat-label {
+  color: #c21919;
+  font-weight: bold;
+  width: clamp(100px, 15vw, 150px);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
 .stat-row {
   display: flex;
   align-items: center;
   padding: 4px 0;
   height: 50px;
   min-height: 35px;
+  width: 100%;
 }
 
 .bar-bg {
@@ -167,48 +200,55 @@ div.tab-content.evo-container-list.active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex: 1;
-  min-width: 100px;
+  flex: 1 1 30%;
+  min-width: 80px;
+  max-width: 150px;
 }
 
 .evo-img {
-  width: clamp(80px, 15vh, 130px);
+  width: 100%;
+  max-width: 70px;
   height: auto;
-  object-fit: contain;
 }
 
 .evo-name {
   font-weight: bold;
-  font-size: clamp(14px, 2vw, 20px);
+  font-size: clamp(16px, 2vw, 28px);
   margin: 5px 0;
   color: #fff;
 }
 
 .evo-arrow {
-  font-size: clamp(18px, 3vw, 24px);
+  font-size: 1.2rem;
   color: #ff4d4d;
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: 0 5px;
+  flex: 0 0 auto;
+}
+
+.tab-content.active {
+  display: block;
+  flex-grow: 1;
 }
 
 .modal-image-container {
   border-radius: 15px;
   width: 100%;
-  min-height: 150px;
-  padding: 20px;
+  min-height: 100px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
   margin: 10px 0;
+  height: clamp(120px, 20vh, 200px);
 }
 
 .modal-main-img {
-  width: 100%;
-  max-width: 150px;
-  height: auto;
+  max-height: 100%;
+  width: auto;
 }
 
 .image-container {
@@ -221,6 +261,7 @@ div.tab-content.evo-container-list.active {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: clamp(120px, 20vh, 200px);
 }
 
 .dialog-overlay {
@@ -235,10 +276,6 @@ div.tab-content.evo-container-list.active {
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(5px);
-}
-
-.dialog-overlay.is-visible {
-  display: flex;
 }
 
 .dialog-type-icons {
@@ -268,8 +305,15 @@ div.tab-content.evo-container-list.active {
 }
 
 .pokemon-info-container p strong {
-  color: #c21919;
-  margin-right: 8px;
-  font-weight: bold;
   padding: 10px 0;
+}
+
+.pokemon-info-container p {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.pokemon-info-container p:last-child {
+  margin-bottom: 0;
 }

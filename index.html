@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./style/buttons.css" />
     <link rel="stylesheet" href="./style/dialog.css" />
     <link rel="stylesheet" href="./style/loading-spinner.css" />
+    <link rel="stylesheet" href="./style/search-error.css" />
     <link rel="stylesheet" href="./style/media-query.css" />
 
     <link
@@ -30,7 +31,7 @@
             class="search-input"
             type="text"
             id="searchInput"
-            placeholder="Suche..."
+            placeholder="search..."
             onkeyup="searchPokemon()"
           />
         </div>
@@ -38,19 +39,19 @@
     </header>
     <main>
       <section class="main-content">
-        <div id="pokemon-container" class="pokemon-container">
-          <p>Lade Pokémon...</p>
+        <div id="pokemonContainer" class="pokemon-container">
+          <p>Load pokémon...</p>
         </div>
       </section>
       <section class="load-content-area">
-        <div id="spinner-overlay" class="loader-overlay">
+        <div id="spinnerOverlay" class="loader-overlay">
           <img
             src="./assets/img/spinner.png"
             class="pokeball-spinner"
             alt="Laden..."
           />
         </div>
-        <button class="load-btn" onclick="loadMore()">Mehr laden...</button>
+        <button class="load-btn" onclick="loadMore()">load more...</button>
       </section>
     </main>
 
@@ -64,38 +65,34 @@
         </div>
       </div>
     </footer>
-    <dialog id="pokeDialog" class="modal">
-      <div class="modal-content">
-        <!-- Neuer Header-Bereich -->
+    <dialog id="pokeDialog" class="modal pokemon-modal" onclick="closeDialog()">
+      <div class="modal-content" onclick="event.stopPropagation()">
         <div class="modal-header">
-          <h2 id="pokemon-title" class="pokemon-title-container">
-            <!-- Wird per JS befüllt: #001 Bisasam -->
-          </h2>
+          <h2 id="pokemonTitle" class="pokemon-title-container"></h2>
           <span class="close-btn" onclick="closeDialog()">&times;</span>
         </div>
-        <div id="image-container" class="image-container">
-          <img id="header-image" src="" style="width: 150px" />
+        <div id="imageContainer" class="image-container">
+          <img id="headerImage" src="" style="width: 150px" />
         </div>
-        <div id="dialog-type-icons" class="dialog-type-icons"></div>
-        <!-- Tab-Header (Buttons) -->
+        <div id="dialogTypeIcons" class="dialog-type-icons"></div>
         <div class="tab-header">
           <button
             class="tab-link active"
-            onclick="openTab(event, 'main-container')"
+            onclick="openTab(event, 'mainContainer')"
           >
             Main
           </button>
-          <button class="tab-link" onclick="openTab(event, 'stats-container')">
+          <button class="tab-link" onclick="openTab(event, 'statsContainer')">
             Stats
           </button>
-          <button class="tab-link" onclick="openTab(event, 'evo-container')">
-            Entwicklung
+          <button class="tab-link" onclick="openTab(event, 'evoContainer')">
+            Evolution
           </button>
         </div>
 
-        <div id="main-container" class="tab-content"></div>
-        <div id="stats-container" class="tab-content"></div>
-        <div id="evo-container" class="tab-content evo-container-list"></div>
+        <div id="mainContainer" class="tab-content"></div>
+        <div id="statsContainer" class="tab-content"></div>
+        <div id="evoContainer" class="tab-content evo-container-list"></div>
       </div>
     </dialog>
   </body>

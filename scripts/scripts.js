@@ -1,134 +1,132 @@
 async function searchPokemon() {
   const input = document.getElementById('searchInput').value.toLowerCase();
-  const loadMoreBtn = document.querySelector('.load-content');
-  if (input.length >= 3) {
-    loadMoreBtn.classList.add('d-none');
-    const filtered = ALL_POKEMON_DATA.filter((p) =>
-      p.name.toLowerCase().includes(input),
-    );
-    CONTAINER.innerHTML = filtered
-      .map((p) => getPokemonCardTemplate(p, p))
-      .join('');
+  const btn = document.querySelector('.load-btn');
+
+  if (input.length < 3) {
+    if (btn) btn.classList.remove('d-none');
+    return renderPokemonList();
+  }
+  if (btn) btn.classList.add('d-none');
+  const filtered = ALL_POKEMON_DATA.filter((p) =>
+    p.name.toLowerCase().includes(input),
+  );
+  if (filtered.length === 0) {
+    CONTAINER.innerHTML = getErrorTemplate(input);
   } else {
-    loadMoreBtn.classList.remove('d-none'); // HINZUFÜGEN
-    renderPokemonList(); // Hier stand vorher renderMainList (Fehler)
+    CONTAINER.innerHTML = filtered
+      .map((p) => getPokemonCardTemplate(p))
+      .join('');
   }
 }
 
 async function getPokemon() {
   const url = `https://pokeapi.co/api/v2/pokemon?limit=${LIMIT}&offset=${OFFSET}`;
-  const response = await fetch(url);
-  const data = await response.json();
+  const data = await fetch(url).then((r) => r.json());
+  const detailPromises = data.results.map((pokemon) =>
+    fetch(pokemon.url).then((r) => r.json()),
+  );
+  const newDetails = await Promise.all(detailPromises);
 
-  for (let pokemon of data.results) {
-    const detailRes = await fetch(pokemon.url);
-    const detailData = await detailRes.json();
-
-    ALL_POKEMON_DATA.push(detailData);
-  }
-
+  ALL_POKEMON_DATA.push(...newDetails);
   renderPokemonList();
-
   OFFSET += LIMIT;
 }
 
 function renderPokemonList() {
-  CONTAINER.innerHTML = '';
-
-  ALL_POKEMON_DATA.forEach((pokemon) => {
-    CONTAINER.innerHTML += getPokemonCardTemplate(pokemon, pokemon);
-  });
+  CONTAINER.innerHTML = ALL_POKEMON_DATA.map((p) =>
+    getPokemonCardTemplate(p),
+  ).join('');
 }
 
 async function openPokeDialog(name) {
-  const p = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then((r) =>
-    r.json(),
-  );
-  const s = await fetch(p.species.url).then((r) => r.json());
-  const e = await fetch(s.evolution_chain.url).then((r) => r.json());
+  const pokemon = ALL_POKEMON_DATA.find((p) => p.name === name);
+  if (!pokemon) return;
+
+  if (!pokemon.evoData) {
+    const stats = await fetch(pokemon.species.url).then((r) => r.json());
+    pokemon.evoData = await fetch(stats.evolution_chain.url).then((r) =>
+      r.json(),
+    );
+  }
+
+  updateDialogUI(pokemon);
+  await renderEvolutionTab(pokemon.evoData);
+  openTab(null, 'mainContainer');
+
+  const dialog = document.getElementById('pokeDialog');
+
+  if (dialog) {
+    dialog.showModal();
+    document.body.classList.add('no-scroll');
+  } else {
+    console.error('Dialog-Element wurde nicht im HTML gefunden!');
+  }
+}
+
+function updateDialogUI(p) {
   const formattedId = `#${p.id.toString().padStart(3, '0')}`;
-  document.getElementById('pokemon-title').innerHTML =
-    `<span class="pokemon-id-num">${formattedId}</span><span class="pokemon-name-text">${p.name}</span>`;
-  document.getElementById('header-image').src =
+  document.getElementById('pokemonTitle').innerHTML = getDialogTitleTemplate(
+    formattedId,
+    p.name,
+  );
+  document.getElementById('headerImage').src =
     p.sprites.other['official-artwork'].front_default;
-  document.getElementById('image-container').style.backgroundColor =
+  document.getElementById('imageContainer').style.backgroundColor =
     TYPE_COLORS[p.types[0].type.name] || '#FFF';
-  document.getElementById('dialog-type-icons').innerHTML = getTypeIconsTemplate(
+  document.getElementById('dialogTypeIcons').innerHTML = getTypeIconsTemplate(
     p.types,
   );
-  document.getElementById('main-container').innerHTML = getMainTemplate(p);
-  document.getElementById('stats-container').innerHTML = getStatsTemplate(p);
-  await renderEvolutionTab(e);
-  openTab(null, 'main-container');
-  document.getElementById('pokeDialog').classList.add('is-visible');
-  document.body.classList.add('no-scroll');
+  document.getElementById('mainContainer').innerHTML = getMainTemplate(p);
+  document.getElementById('statsContainer').innerHTML = getStatsTemplate(p);
 }
 
 function closeDialog() {
-  document.getElementById('pokeDialog').classList.remove('is-visible'); // HINZUFÜGEN
+  const dialog = document.getElementById('pokeDialog');
+  dialog.close();
   document.body.classList.remove('no-scroll');
 }
 
 async function renderEvolutionTab(evoData) {
-  // Findet das Element über die ID, nutzt aber das Klassen-Styling aus dem CSS
-  const evoContainer = document.getElementById('evo-container');
-  const evoChainNames = [];
-  let currentStep = evoData.chain;
-
-  while (currentStep) {
-    evoChainNames.push(currentStep.species.name);
-    currentStep = currentStep.evolves_to[0];
+  const names = [];
+  let curr = evoData.chain;
+  while (curr) {
+    names.push(curr.species.name);
+    curr = curr.evolves_to[0];
   }
-
-  const pokemonPromises = evoChainNames.map((name) =>
-    fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then((res) =>
-      res.json(),
+  const pokemonResults = await Promise.all(
+    names.map((n) =>
+      fetch(`https://pokeapi.co/api/v2/pokemon/${n}`).then((r) => r.json()),
     ),
   );
-  const pokemonResults = await Promise.all(pokemonPromises);
-
-  evoContainer.innerHTML = pokemonResults
+  document.getElementById('evoContainer').innerHTML = pokemonResults
     .map((p, i) => getEvolutionStepTemplate(p, i, pokemonResults.length))
     .join('');
 }
 
 function openTab(evt, tabName) {
-  // 1. Alle Inhalte verstecken
   const contents = document.getElementsByClassName('tab-content');
-  for (let content of contents) {
-    content.classList.remove('active');
-  }
-
   const links = document.getElementsByClassName('tab-link');
-  for (let link of links) {
-    link.classList.remove('active');
-  }
-
+  for (let c of contents) c.classList.remove('active');
+  for (let l of links) l.classList.remove('active');
   document.getElementById(tabName).classList.add('active');
-  if (evt) {
-    evt.currentTarget.classList.add('active');
+  if (evt) evt.currentTarget.classList.add('active');
+}
+
+async function loadMore() {
+  const btn = document.querySelector('.load-btn');
+  const overlay = document.getElementById('spinnerOverlay');
+
+  btn.disabled = true;
+  overlay.classList.add('is-loading');
+
+  try {
+    await getPokemon();
+  } catch (e) {
+    console.error('Fehler beim Laden', e);
+  } finally {
+    overlay.classList.remove('is-loading');
+    btn.disabled = false;
   }
 }
 
 getPokemon();
-
-async function loadMore() {
-  const btn = document.querySelector('.load-btn');
-  const overlay = document.getElementById('spinner-overlay');
-
-  overlay.classList.add('is-loading');
-  btn.classList.add('hidden');
-
-  document.body.style.height = 'auto';
-  document.body.style.overflowY = 'auto';
-  document.querySelector('main').style.height = 'auto';
-  document.querySelector('main').style.overflow = 'visible';
-
-  // 3. Daten laden
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  await getPokemon();
-
-  // 4. Spinner weg, Button wieder da
-  overlay.classList.remove('is-loading');
-  btn.classList.remove('hidden');
-}

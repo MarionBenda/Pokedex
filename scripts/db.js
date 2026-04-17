@@ -1,6 +1,5 @@
-const URL = 'https://pokeapi.co/api/v2/pokemon?limit=100&offset=0';
-const LIMIT = 9;
-const CONTAINER = document.getElementById('pokemon-container');
+const LIMIT = 20;
+const CONTAINER = document.getElementById('pokemonContainer');
 let OFFSET = 0;
 
 let ALL_POKEMON_DATA = [];

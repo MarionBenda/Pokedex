@@ -1,0 +1,37 @@
+.search-error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  grid-column: 1 / -1; /* Erstreckt sich über alle Grid-Spalten */
+  min-height: 300px;
+  padding: 20px;
+}
+
+/* Der eigentliche Text-Block */
+.search-error-content {
+  text-align: center;
+  background-color: #17161d;
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px solid #333;
+  max-width: 400px;
+  font-family: palanquin, sans-serif;
+}
+
+.search-error-content h2 {
+  color: #ff421c;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.search-error-content p {
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.search-error-content p span {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
