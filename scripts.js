@@ -39,29 +39,19 @@ function renderPokemonList() {
 }
 
 async function openPokeDialog(name) {
-  currentPokemonName = name;
   const pokemon = ALL_POKEMON_DATA.find((p) => p.name === name);
   if (!pokemon) return;
-
+  currentPokemonName = name;
   if (!pokemon.evoData) {
-    const stats = await fetch(pokemon.species.url).then((r) => r.json());
-    pokemon.evoData = await fetch(stats.evolution_chain.url).then((r) =>
-      r.json(),
-    );
+    const stats = await (await fetch(pokemon.species.url)).json();
+    pokemon.evoData = await (await fetch(stats.evolution_chain.url)).json();
   }
-
   updateDialogUI(pokemon);
   await renderEvolutionTab(pokemon.evoData);
   openTab(null, 'mainContainer');
-
   const dialog = document.getElementById('pokeDialog');
-
-  if (dialog) {
-    dialog.showModal();
-    document.body.classList.add('no-scroll');
-  } else {
-    console.error('Dialog-Element wurde nicht im HTML gefunden!');
-  }
+  dialog?.showModal();
+  dialog && document.body.classList.add('no-scroll');
 }
 
 function updateDialogUI(p) {
@@ -82,15 +72,12 @@ function updateDialogUI(p) {
 }
 
 function changePokemon(event, direction) {
-  event.stopPropagation(); // WICHTIG: Verhindert das Schließen des Dialogs
+  event.stopPropagation();
 
-  // Finde heraus, an welcher Stelle wir gerade sind
   const currentIndex = ALL_POKEMON_DATA.findIndex(
     (p) => p.name === currentPokemonName,
   );
   let nextIndex = currentIndex + direction;
-
-  // Verhindert "Out of Bounds" (Endlos-Schleife)
   if (nextIndex >= ALL_POKEMON_DATA.length) nextIndex = 0;
   if (nextIndex < 0) nextIndex = ALL_POKEMON_DATA.length - 1;
 
