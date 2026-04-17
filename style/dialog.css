@@ -26,7 +26,7 @@
   border: none;
   background: transparent;
   padding: 0;
-  margin: auto; /* Browser zentriert <dialog> hiermit automatisch */
+  margin: auto;
   overflow: visible;
   position: fixed;
   outline: none;
